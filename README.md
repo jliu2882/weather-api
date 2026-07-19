@@ -1,8 +1,3 @@
-docker run --name redis -p 6379:6379 -d redis:7
+FastAPI-based weather API wrapper, served with Uvicorn, using Redis for caching.
 
-docker ps
-
-docker stop weather-redis
-docker start weather-redis
-
-docker rm weather-redis
+I hosted Redis in a Docker container.

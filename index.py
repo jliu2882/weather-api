@@ -1,36 +1,32 @@
+import contextlib
 import json
 import os
-import uvicorn
+from urllib.parse import quote
+
+import dotenv
+import httpx
 import redis
-from dotenv import load_dotenv
-from contextlib import asynccontextmanager
+import uvicorn
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
-from fastapi.middleware.cors import CORSMiddleware  # Enable cross-origin requests
-import httpx  # Asynchronous HTTP client for calling third-party APIs
-from typing import Optional  # Type hints for optional parameters
-from urllib.parse import quote  # Encode location names for API requests
+dotenv.load_dotenv()
 
-# use flask-limiter to limit requests to the API to prevent abuse
-
-load_dotenv()
-
-WEATHER_API_URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"  # Visual Crossing API endpoint
+WEATHER_API_URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline"
 WEATHER_API_KEY = os.getenv("WEATHER_API_KEY")
 REDIS_URL = os.getenv("REDIS_URL")
 CACHE_TTL_SECONDS = int(os.getenv("CACHE_TTL_SECONDS"))
 
-
-client: Optional[httpx.AsyncClient] = None
+client: httpx.AsyncClient = None
 redis_client = redis.from_url(REDIS_URL)
 
-@asynccontextmanager
+@contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
     global client
-    client = httpx.AsyncClient(timeout=10.0)  # Create async HTTP client with 10-second timeout
+    client = httpx.AsyncClient(timeout=10.0)
     print("✓ HTTP client initialized")
     yield
-    await client.aclose()  # Gracefully close the HTTP client
+    await client.aclose()
     print("✓ HTTP client closed")
 
 app = FastAPI(
@@ -47,11 +43,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
 def _build_weather_url(city: str) -> str:
     return f"{WEATHER_API_URL}/{quote(city.strip())}"
-
 
 def _extract_weather_metrics(weather_data: dict, city: str) -> dict:
     current = weather_data.get("currentConditions") or {}
