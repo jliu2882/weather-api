@@ -18,6 +18,9 @@ docker rm weather-redis
 
 docker compose up --build -d 
 
+docker compose -f docker-compose.prod.yml up --build -d
+
+
 docker exec -it container_name_fromdockercompose psql -U username_fromdockercompose -d db_name_fromdockercompose -c "\d"
 
 
