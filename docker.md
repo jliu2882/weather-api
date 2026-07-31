@@ -18,7 +18,7 @@ docker rm weather-redis
 
 docker compose up --build -d 
 
-docker exec -it dev_postgres psql -U todo_admin -d todo_app_db -c "\d"
+docker exec -it container_name_fromdockercompose psql -U username_fromdockercompose -d db_name_fromdockercompose -c "\d"
 
 
 update schema sql 2 methods
