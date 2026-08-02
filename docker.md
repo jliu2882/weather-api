@@ -26,6 +26,8 @@ docker exec -it container_name_fromdockercompose psql -U username_fromdockercomp
 
 update schema sql 2 methods
 
+docker compose logs -f
+
 docker compose down -v
 
 docker exec -it dev_postgres psql -U todo_admin -d todo_app_db -c "SQL COMMAND"
