@@ -23,6 +23,8 @@ docker compose -f docker-compose.prod.yml up --build -d
 
 docker exec -it container_name_fromdockercompose psql -U username_fromdockercompose -d db_name_fromdockercompose -c "\d"
 
+\d can be an sql command to manually insert or view tables
+
 
 update schema sql 2 methods
 
