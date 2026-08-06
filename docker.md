@@ -16,6 +16,9 @@ docker start weather-redis
 docker rm weather-redis
 
 
+
+geenral more docker tips
+
 docker compose up --build -d 
 
 docker compose -f docker-compose.prod.yml up --build -d
@@ -23,15 +26,14 @@ docker compose -f docker-compose.prod.yml up --build -d
 
 docker exec -it container_name_fromdockercompose psql -U username_fromdockercompose -d db_name_fromdockercompose -c "\d"
 
-\d can be an sql command to manually insert or view tables
+docker exec -it dev_postgres psql -U todo_admin -d todo_app_db -c "SQL COMMAND"
+
+docker compose logs -f
+
 
 
 update schema sql 2 methods
 
-docker compose logs -f
-
 docker compose down -v
-
-docker exec -it dev_postgres psql -U todo_admin -d todo_app_db -c "SQL COMMAND"
 
 docker exec -i dev_postgres psql -U todo_admin -d todo_app_db < ./db/schema.sql
