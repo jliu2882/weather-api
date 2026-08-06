@@ -17,7 +17,7 @@ docker rm weather-redis
 
 
 
-geenral more docker tips
+# geenral more docker tips
 
 docker compose up --build -d 
 
